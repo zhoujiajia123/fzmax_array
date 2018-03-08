@@ -1,0 +1,51 @@
+package fz;
+
+public class Maxarray {
+
+	public static void main(String[] args) { 
+		// TODO Auto-generated method stub
+		System.out.println(findMsub(new int[] {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7},0,3));
+	}
+	
+	public static int findMsub(int[] a,int low,int high) {
+		int lmax=0,cmax=0,rmax=0;
+		if (low==high) {
+			return a[low]; 
+		}
+		else {
+			int mid=(low+high)/2;
+			lmax=findMsub(a, low, mid);
+			rmax=findMsub(a, mid+1, high);
+			cmax=crossingSub(a, low, mid, high);
+			if (lmax>=rmax&&lmax>=cmax) {
+				return lmax;
+			}
+			else if (rmax>=lmax&&rmax>=cmax) {
+				return rmax;
+			}
+			return cmax;
+		}
+	}
+	
+	public static int crossingSub(int[] a,int low,int mid,int high) {
+		int leftmax=Integer.MIN_VALUE;
+		int sum=0;
+		for (int i=mid; i>=low; i--) {
+			sum=sum+a[i];
+			if (sum>leftmax) {
+				leftmax=sum;
+			}
+			
+		}
+		int rightmax=Integer.MIN_VALUE;
+		sum=0;
+		for (int i = mid+1; i <= high; i++) {
+			sum+=a[i];
+			if (sum>rightmax) {
+				rightmax=sum;
+			}
+		}
+		return leftmax+rightmax;
+	}
+
+}
